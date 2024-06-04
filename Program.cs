@@ -14,7 +14,7 @@ namespace LehrerZitateApi
 
             builder.Services.AddControllers();
             builder.Services.AddDbContext<LehrerZitateContext>(options =>
-                           options.UseSqlite("Data Source=LehrerZitate.db"));
+                           options.UseInMemoryDatabase("LehrerZitate"));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
