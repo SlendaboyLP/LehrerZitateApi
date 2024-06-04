@@ -1,4 +1,7 @@
 
+using LehrerZitateApi.Model;
+using Microsoft.EntityFrameworkCore;
+
 namespace LehrerZitateApi
 {
     public class Program
@@ -10,6 +13,8 @@ namespace LehrerZitateApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<LehrerZitateContext>(options =>
+                           options.UseSqlite("Data Source=LehrerZitate.db"));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -1,9 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LehrerZitateApi.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LehrerZitateApi.Controllers
 {
-    public class LehrerZitateController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LehrerZitateController : ControllerBase
     {
-        
+        private readonly LehrerZitateContext _context;
+
+        public LehrerZitateController(LehrerZitateContext context)
+        {
+            _context = context;
+        }
+
+
     }
 }
