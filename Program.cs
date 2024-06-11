@@ -15,6 +15,16 @@ namespace LehrerZitateApi
             builder.Services.AddControllers();
             builder.Services.AddDbContext<LehrerZitateContext>(options =>
                            options.UseInMemoryDatabase("LehrerZitate"));
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:7183")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
+            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
