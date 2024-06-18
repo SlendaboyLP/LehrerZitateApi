@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Card, List } from "antd";
 
 const getQuotes = async () => {
-  const response = await fetch("https://localhost:7183/api/LehrerZitate");
+  const response = await fetch("https://localhost:7183/api/LehrerZitate", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    "Access-Control-Allow-Origin": "*",
+  });
   return await response.json();
 };
 export default function ReadAllQuotes() {
