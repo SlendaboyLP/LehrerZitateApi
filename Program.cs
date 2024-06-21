@@ -10,19 +10,18 @@ namespace LehrerZitateApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            builder.Services.AddDbContext<LehrerZitateContext>(options =>
-                           options.UseInMemoryDatabase("LehrerZitate"));
-
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:7183")
+                options.AddPolicy( name: "AllowAll",
+                    builder => builder.AllowAnyOrigin()
                                       .AllowAnyMethod()
                                       .AllowAnyHeader());
             });
+            // Add services to the container.
+
+            builder.Services.AddDbContext<LehrerZitateContext>(options =>
+                           options.UseInMemoryDatabase("LehrerZitate"));
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,6 +39,7 @@ namespace LehrerZitateApi
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowAll");
             app.UseAuthorization();
 
 

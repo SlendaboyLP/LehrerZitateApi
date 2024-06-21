@@ -1,23 +1,22 @@
 import React from "react";
 import { Button, Checkbox, Form, Input } from "antd";
+import { useParams } from "react-router-dom";
 
 import { Card } from "antd";
 
 const onFinish = (values) => {
   fetch("https://localhost:7183/api/LehrerZitate", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers":
-        "Origin, X-Requested-With, Content-Type, Accept",
     },
     body: JSON.stringify({
       Quote: values.zitat,
       Teacher: values.lehrer,
       FalseTeacher: values.fakelehrer,
-      IsPosted: values.checked,
+      IsPosted: values.geposted,
     }),
+    "Access-Control-Allow-Origin": "*",
   });
   console.log("Success:", values);
 };
@@ -25,7 +24,24 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
+const getQuote = async (id) => {
+  const response = await fetch(
+    `https://localhost:7183/api/LehrerZitate/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "Access-Control-Allow-Origin": "*",
+    }
+  );
+  return await response.json();
+};
+
 export default function AddQuote() {
+  const { id } = useParams();
+  const [quote, setQuote] = useState(getQuote(id));
+
   return (
     <Card title="Neues Zitat hinzufügen" style={{ maxWidth: 600 }}>
       <Form
@@ -44,6 +60,7 @@ export default function AddQuote() {
         <Form.Item
           label="Zitat"
           name="zitat"
+          initialValue={quote.zitat}
           rules={[
             {
               required: true,
@@ -57,6 +74,7 @@ export default function AddQuote() {
         <Form.Item
           label="Lehrer"
           name="lehrer"
+          initialValue={quote.lehrer}
           rules={[
             {
               required: true,
@@ -68,11 +86,11 @@ export default function AddQuote() {
         </Form.Item>
 
         <Form.Item label="Fake Lehrer" name="fakelehrer">
-          <Input />
+          <Input initialValue={quote.fakelehrer} />
         </Form.Item>
 
-        <Form.Item name="geposted" valuePropName="checked">
-          <Checkbox>geposted</Checkbox>
+        <Form.Item name="Geposted" valuePropName="geposted">
+          <Checkbox initialValue={quote.geposted}>geposted</Checkbox>
         </Form.Item>
 
         <Form.Item>
